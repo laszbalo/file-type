@@ -1,81 +1,43 @@
 'use strict';
+const jpg = require('./tests/jpg'); // TODO: usally tests folder holds the application test. Come up with a better naming
+const png = require('./tests/png');
+const gif = require('./tests/gif');
+const webp = require('./tests/webp');
+const flif = require('./tests/flif');
+const cr2 = require('./tests/cr2');
+const tif = require('./tests/tif');
+const bmp = require('./tests/bmp');
+const jxr = require('./tests/jxr');
+const psd = require('./tests/psd');
+
 module.exports = input => {
 	const buf = new Uint8Array(input);
 
+	// should it not be part of the individual tests instead?
 	if (!(buf && buf.length > 1)) {
 		return null;
 	}
 
-	if (buf[0] === 0xFF && buf[1] === 0xD8 && buf[2] === 0xFF) {
-		return {
-			ext: 'jpg',
-			mime: 'image/jpeg'
-		};
-	}
+	if (jpg.test(buf)) return jpg.meta;
 
-	if (buf[0] === 0x89 && buf[1] === 0x50 && buf[2] === 0x4E && buf[3] === 0x47) {
-		return {
-			ext: 'png',
-			mime: 'image/png'
-		};
-	}
+	if (png.test(buf)) return png.meta;
 
-	if (buf[0] === 0x47 && buf[1] === 0x49 && buf[2] === 0x46) {
-		return {
-			ext: 'gif',
-			mime: 'image/gif'
-		};
-	}
+	if (gif.test(buf)) return gif.meta;
 
-	if (buf[8] === 0x57 && buf[9] === 0x45 && buf[10] === 0x42 && buf[11] === 0x50) {
-		return {
-			ext: 'webp',
-			mime: 'image/webp'
-		};
-	}
+	if (webp.test(buf)) return webp.meta;
 
-	if (buf[0] === 0x46 && buf[1] === 0x4C && buf[2] === 0x49 && buf[3] === 0x46) {
-		return {
-			ext: 'flif',
-			mime: 'image/flif'
-		};
-	}
+	if (flif.test(buf)) return flif.meta;
 
-	// needs to be before `tif` check
-	if (((buf[0] === 0x49 && buf[1] === 0x49 && buf[2] === 0x2A && buf[3] === 0x0) || (buf[0] === 0x4D && buf[1] === 0x4D && buf[2] === 0x0 && buf[3] === 0x2A)) && buf[8] === 0x43 && buf[9] === 0x52) {
-		return {
-			ext: 'cr2',
-			mime: 'image/x-canon-cr2'
-		};
-	}
+	// needs to be before `tif` check UPDATE: actually it doesn't, but cr2.test() will run twice
+	if (cr2.test(buf)) return cr2.meta;
+	
+	if (tif.test(buf)) return tif.meta;
 
-	if ((buf[0] === 0x49 && buf[1] === 0x49 && buf[2] === 0x2A && buf[3] === 0x0) || (buf[0] === 0x4D && buf[1] === 0x4D && buf[2] === 0x0 && buf[3] === 0x2A)) {
-		return {
-			ext: 'tif',
-			mime: 'image/tiff'
-		};
-	}
+	if (bmp.test(buf)) return bmp.meta;
 
-	if (buf[0] === 0x42 && buf[1] === 0x4D) {
-		return {
-			ext: 'bmp',
-			mime: 'image/bmp'
-		};
-	}
+	if (jxr.test(buf)) return jxr.meta;
 
-	if (buf[0] === 0x49 && buf[1] === 0x49 && buf[2] === 0xBC) {
-		return {
-			ext: 'jxr',
-			mime: 'image/vnd.ms-photo'
-		};
-	}
-
-	if (buf[0] === 0x38 && buf[1] === 0x42 && buf[2] === 0x50 && buf[3] === 0x53) {
-		return {
-			ext: 'psd',
-			mime: 'image/vnd.adobe.photoshop'
-		};
-	}
+	if (psd.test(buf)) return psd.meta;
 
 	// needs to be before `zip` check
 	if (buf[0] === 0x50 && buf[1] === 0x4B && buf[2] === 0x3 && buf[3] === 0x4 && buf[30] === 0x6D && buf[31] === 0x69 && buf[32] === 0x6D && buf[33] === 0x65 && buf[34] === 0x74 && buf[35] === 0x79 && buf[36] === 0x70 && buf[37] === 0x65 && buf[38] === 0x61 && buf[39] === 0x70 && buf[40] === 0x70 && buf[41] === 0x6C && buf[42] === 0x69 && buf[43] === 0x63 && buf[44] === 0x61 && buf[45] === 0x74 && buf[46] === 0x69 && buf[47] === 0x6F && buf[48] === 0x6E && buf[49] === 0x2F && buf[50] === 0x65 && buf[51] === 0x70 && buf[52] === 0x75 && buf[53] === 0x62 && buf[54] === 0x2B && buf[55] === 0x7A && buf[56] === 0x69 && buf[57] === 0x70) {
