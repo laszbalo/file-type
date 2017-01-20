@@ -6,4 +6,4 @@ module.exports = {
 		ext: 'jxr',
 		mime: 'image/vnd.ms-photo'
 	}
-}
+};

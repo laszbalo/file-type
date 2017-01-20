@@ -6,4 +6,4 @@ module.exports = {
 		ext: 'cr2',
 		mime: 'image/x-canon-cr2'
 	}
-}
+};

@@ -6,4 +6,4 @@ module.exports = {
 		ext: 'webp',
 		mime: 'image/webp'
 	}
-}
+};

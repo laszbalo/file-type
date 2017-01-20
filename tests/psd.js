@@ -6,4 +6,4 @@ module.exports = {
 		ext: 'psd',
 		mime: 'image/vnd.adobe.photoshop'
 	}
-}
+};

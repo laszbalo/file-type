@@ -6,4 +6,4 @@ module.exports = {
 		ext: 'jpg',
 		mime: 'image/jpeg'
 	}
-}
+};

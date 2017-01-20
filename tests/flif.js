@@ -6,4 +6,4 @@ module.exports = {
 		ext: 'flif',
 		mime: 'image/flif'
 	}
-}
+};
